@@ -2,6 +2,7 @@ import uuid
 
 from pydantic import EmailStr
 from sqlmodel import Field, Relationship, SQLModel
+from datetime import datetime
 
 
 # Shared properties
@@ -10,6 +11,15 @@ class UserBase(SQLModel):
     is_active: bool = True
     is_superuser: bool = False
     full_name: str | None = Field(default=None, max_length=255)
+
+
+# Shared properties
+class ReservationBase(SQLModel, table=True):
+    __tablename__ = 'reservations'
+    id: int = Field(default=None, primary_key=True)
+    reservator_name: str = Field(max_length=255)
+    reservation_start_time: datetime = Field(nullable=False)
+    reservation_end_time: datetime = Field(nullable=False)
 
 
 # Properties to receive via API on creation
@@ -112,3 +122,16 @@ class TokenPayload(SQLModel):
 class NewPassword(SQLModel):
     token: str
     new_password: str = Field(min_length=8, max_length=40)
+
+
+class GoogleToken(SQLModel):
+    google_token: str
+
+
+class ChatMessage(SQLModel):
+    role: str
+    message: str
+
+
+class ChatMessages(SQLModel):
+    messages: list[ChatMessage]
