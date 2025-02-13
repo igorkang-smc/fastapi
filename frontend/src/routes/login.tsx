@@ -24,7 +24,7 @@ import Logo from "/assets/images/fastapi-logo.svg"
 import type {Body_login_login_access_token as AccessToken} from "../client"
 import useAuth, {isLoggedIn} from "../hooks/useAuth"
 import {emailPattern} from "../utils"
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 
 
 export const Route = createFileRoute("/login")({
@@ -54,7 +54,6 @@ function Login() {
         },
     })
 
-    const [user, setUser] = useState(null)
 
     useEffect(() => {
         const options = {
@@ -64,6 +63,7 @@ function Login() {
             context: 'signin'
         }
 
+        // @ts-ignore
         googleOneTap(options, (response: any) => {
             console.log(response)
             if (response && response.credential) {
